@@ -5,6 +5,13 @@
 {% block content %}
 <!-- Title -->
 <h1 class="mt-4">{{ object.title }}</h1>
+{% if object.category %}
+<span class="badge bg-dark float-right">{{ object.category }}</span>
+{% else %}
+<span class="badge bg-dark float-right">미분류</span>
+{% endif %}
+
+
 
 <!-- Author -->
 <p class="lead">
@@ -15,8 +22,12 @@
 <hr>
 
 <!-- Date/Time -->
-<p>Posted on {{ object.created }}</p>
+<p>Posted on {{ object.created }}
 
+{% if request.user == object.author %}
+<button type="button" class="btn btn-sm btn-secondary float-right">EDIT</button>
+{% endif %}
+</p>
 <hr>
 
 <!-- Preview Image -->
@@ -30,7 +41,7 @@
 <!-- Post Content -->
 {{ object.content }}
 <hr>
-</br>
+<br>
 {% for tag in object.tags.all %}
 <a href="{{ tag.get_absolute_url }}">#{{ tag }}</a>
 {% endfor %}

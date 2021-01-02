@@ -41,7 +41,7 @@ def create_post(title, content, author, category=None):
 class TestModel(TestCase):
     def setUp(self):
         self.client = Client()
-        self.author_000 = User.objects.create(username='user', password='password')
+        self.author_000 = User.objects.create_user(username='smith', password='password')
 
     def test_category(self):
         category = create_category()
@@ -99,7 +99,8 @@ class TestModel(TestCase):
 class TestView(TestCase):
     def setUp(self):
         self.client = Client()
-        self.author_000 = User.objects.create(username='user', password='password')
+        self.author_000 = User.objects.create_user(username='smith', password='password')
+        self.user_obama = User.objects.create_user(username='obama', password='password')
 
     def check_navbar(self, soup):
         navbar = soup.find('div', id='navbar')
@@ -108,8 +109,8 @@ class TestView(TestCase):
 
     def check_right_side(self, soup):
         category_card = soup.find('div', id='category-card')
-        self.assertIn('미분류(1)', category_card.text)
-        self.assertIn('News(1)', category_card.text)
+        self.assertIn('미분류', category_card.text)
+        self.assertIn('News', category_card.text)
 
 
 
@@ -181,10 +182,12 @@ class TestView(TestCase):
 
 
     def test_post_detail(self):
+        category_news = create_category(name='News')
         post_000 = create_post(
             title='The first post',
             content='Hello World',
-            author=self.author_000
+            author=self.author_000,
+            category = create_category(name='News')
         )
 
         post_001 = create_post(
@@ -223,6 +226,28 @@ class TestView(TestCase):
         # self.assertIn('#america', main_div)
 
 
+        self.assertIn(category_news.name, main_div.text)
+        self.assertNotIn('EDIT', main_div.text)
+
+        login_success = self.client.login(username='smith', password='password')
+        self.assertTrue(login_success)
+        response = self.client.get(post_000_url)
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        main_div = soup.find('div', id='main-div')
+        self.assertEqual(post_000.author, self.author_000)
+        self.assertIn('EDIT', main_div.text)
+
+        login_success = self.client.login(username='obama', password='password')
+        self.assertTrue(login_success)
+        response = self.client.get(post_000_url)
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        main_div = soup.find('div', id='main-div')
+        self.assertEqual(post_000.author, self.author_000)
+        self.assertNotIn('EDIT', main_div.text)
 
     def test_post_list_by_category(self):
         category_news = create_category(name='News')
