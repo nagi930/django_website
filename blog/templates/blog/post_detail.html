@@ -30,6 +30,10 @@
 <!-- Post Content -->
 {{ object.content }}
 <hr>
+</br>
+{% for tag in object.tags.all %}
+<a href="{{ tag.get_absolute_url }}">#{{ tag }}</a>
+{% endfor %}
 
 <!-- Comments Form -->
 <div class="card my-4">

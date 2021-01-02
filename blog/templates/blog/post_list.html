@@ -1,15 +1,17 @@
 {% extends 'blog/base.html' %}
 {% if title %}
-    {% block title %}{{ title }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% endif %}
 
 {% block content %}
-<h1 class="my-4">Blog {% if category %}<small class="text-muted">: {{ category }}</small>{% endif %}</h1>
+<h1 class="my-4" id="blog-list-title">Blog
+    {% if category %}<small class="text-muted">: {{ category }}</small>{% endif %}
+    {% if tag %}<small class="text-muted">: #{{ tag }}</small>{% endif %}
+</h1>
+
 {% if object_list.exists %}
-
-
 {% for i in object_list %}
-<div class="card mb-4">
+<div class="card mb-4" id="post-card-{{ i.pk }}">
     {% if i.head_image %}
     <img class="card-img-top" src="{{ i.head_image.url }}" alt="Card image cap">
     {% else %}
@@ -23,6 +25,13 @@
         {% endif %}
         <h2 class="card-title">{{ i.title }}</h2>
         <p class="card-text">{{ i.content | truncatewords:50}}</p>
+
+        {% for tag in i.tags.all %}
+        <a href="{{ tag.get_absolute_url }}">#{{ tag }}</a>
+        {% endfor %}
+
+        <br>
+        <br>
         <a href="{{ i.get_absolute_url }}" class="btn btn-primary" id="read-more-post-{{i.pk}}">Read More &rarr;</a>
     </div>
     <div class="card-footer text-muted">
@@ -43,4 +52,4 @@
     </li>
 </ul>
 {% endblock %}
-</div>
+
