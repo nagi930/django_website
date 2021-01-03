@@ -4,7 +4,11 @@
 {% endif %}
 
 {% block content %}
+
 <h1 class="my-4" id="blog-list-title">Blog
+    {% if user.is_authenticated %}
+    <button class="btn btn-primary btn-sm float-right" onclick="location.href='/blog/create/'">New Post</button>
+    {% endif %}
     {% if category %}<small class="text-muted">: {{ category }}</small>{% endif %}
     {% if tag %}<small class="text-muted">: #{{ tag }}</small>{% endif %}
 </h1>

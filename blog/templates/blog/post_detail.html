@@ -25,7 +25,7 @@
 <p>Posted on {{ object.created }}
 
 {% if request.user == object.author %}
-<button type="button" class="btn btn-sm btn-secondary float-right">EDIT</button>
+<button type="button" class="btn btn-sm btn-secondary float-right" onclick="location.href='{{ object.get_update_url }}'">EDIT</button>
 {% endif %}
 </p>
 <hr>
@@ -39,7 +39,7 @@
 <hr>
 
 <!-- Post Content -->
-{{ object.content }}
+{{ object.get_markdown_content | safe }}
 <hr>
 <br>
 {% for tag in object.tags.all %}

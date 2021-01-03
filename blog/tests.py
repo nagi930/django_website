@@ -333,6 +333,39 @@ class TestView(TestCase):
         blog_h1 = main_div.find('h1', id='blog-list-title')
         self.assertIn('#{}'.format(tag_000.name), blog_h1.text)
 
+    def test_post_create(self):
+        response = self.client.get('/blog/create/')
+        self.assertEqual(response.status_code, 200)
+
+        self.client.login(username='smith', password='password')
+        response = self.client.get('/blog/create/')
+        self.assertEqual(response.status_code, 200)
 
 
+    def test_post_update(self):
+        response = self.client.get('/blog/create/')
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        main_div = soup.find('div', id='main-div')
+
+
+
+
+
+    def test_post_update(self):
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World',
+            author=self.author_000,
+        )
+
+        self.assertEqual(post_000.get_update_url(), post_000.get_absolute_url() + 'update/')
+        print(post_000.get_update_url())
+        response = self.client.get(post_000.get_update_url())
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        main_div = soup.find('div', id='main-div')
+        self.assertNotIn('Created', main_div.text)
+        self.assertNotIn('Author', main_div.text)
 
