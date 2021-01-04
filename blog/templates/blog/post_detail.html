@@ -64,7 +64,11 @@
 <div id="comments-list">
     {% for comment in object.comment_set.all %}
         <div class="media mb-4" id="comment-id-{{ comment.pk }}">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            {% if comment.author.socialaccount_set.all.0.get_avatar_url %}
+                <img width="50px" class="d-flex mr-3 rounded-circle" src="{{ comment.author.socialaccount_set.all.0.get_avatar_url }}" alt="">
+            {% else %}
+                <img width="50px" class="d-flex mr-3 rounded-circle" src="https://via.placeholder.com/50x50" alt="">
+            {% endif %}
             <div class="media-body">
                 {% if comment.author == request.user %}
                 <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">delete</button>

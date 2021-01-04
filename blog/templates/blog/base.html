@@ -103,11 +103,20 @@
         <h5 class="modal-title" id="exampleModalLabel">Please Log in</h5>
       </div>
       <div class="modal-body">
-        <a role="button" class="btn btn-primary" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i> Log in with Google</a>
+          <div class="row">
+              <div class="col-md-6 btn-group-vertical">
+                  <a role="button" class="btn btn-outline-danger" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i> Log in with Google</a>
+                  <a role="button" class="btn btn-outline-success mt-2" href="/accounts/login/" ><i class="fas fa-thumbs-up"></i> Log in with Email</a>
+              </div>
+              <div class="col-md-6">
+                  <a role="button" class="btn btn-outline-info" href="/accounts/signup/"><i class="fas fa-envelope"></i> Sign Up with Email</a>
+
+              </div>
+          </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

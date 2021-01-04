@@ -212,7 +212,28 @@ class TestView(TestCase):
         post_card_000 = main_div.find('div', id='post-card-{}'.format(post_000.pk))
         # self.assertIn('#america', post_card_000)
 
+    def test_pagination(self):
+        for i in range(0, 3):
+            post = create_post(
+                title='The post No. {}'.format(i),
+                content='Content {}'.format(i),
+                author=self.author_000,
+            )
+        response = self.client.get('/blog/')
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertNotIn('Older', soup.body.text)
+        self.assertNotIn('Newer', soup.body.text)
 
+        for i in range(3, 10):
+            post = create_post(
+                title='The post No. {}'.format(i),
+                content='Content {}'.format(i),
+                author=self.author_000,
+            )
+        response = self.client.get('/blog/')
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertIn('Older', soup.body.text)
+        self.assertIn('Newer', soup.body.text)
 
 
     def test_post_detail(self):
