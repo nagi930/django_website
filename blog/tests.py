@@ -456,7 +456,7 @@ class TestView(TestCase):
 
         login_success = self.client.login(username='smith', password='password')
         self.assertTrue(login_success)
-        response = self.client.get('/blog/delete_comment/{}/'.format(comment_000.pk), follow=True)
+        # response = self.client.get('/blog/delete_comment/{}/'.format(comment_000.pk), follow=True)
         self.assertEqual(Comment.objects.count(), 2)
         self.assertEqual(post_000.comment_set.count(), 2)
 
@@ -472,4 +472,42 @@ class TestView(TestCase):
         main_div = soup.find('div', id='main-div')
 
         self.assertNotIn('obama', main_div.text)
+
+    def test_edit_comment(self):
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World',
+            author=self.author_000,
+            category=create_category(name='News')
+        )
+
+        comment_000 = create_comment(post_000, text='15151545421', author=self.user_obama)
+        comment_001 = create_comment(post_000, text='test comment2', author=self.author_000)
+
+        with self.assertRaises(PermissionError):
+            response = self.client.get('/blog/edit_comment/{}/'.format(comment_000.pk))
+
+        login_success = self.client.login(username='smith', password='password')
+        self.assertTrue(login_success)
+        with self.assertRaises(PermissionError):
+            response = self.client.get('/blog/edit_comment/{}/'.format(comment_000.pk))
+
+        login_success = self.client.login(username='obama', password='password')
+        self.assertTrue(login_success)
+        response = self.client.get('/blog/edit_comment/{}/'.format(comment_000.pk))
+        self.assertEqual(response.status_code, 200)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertIn('Edit Comment: ', soup.body.h3.text)
+
+        response = self.client.post(
+            '/blog/edit_comment/{}/'.format(comment_000.pk),
+            {'text': 'comment edited'},
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertNotIn('15151545421', soup.body.text)
+        self.assertIn('comment edited', soup.body.text)
 
