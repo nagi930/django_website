@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'blog/_assets/css/custom.min.css' %}">
+    <script src="https://kit.fontawesome.com/12cd1e2a00.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
@@ -54,7 +56,7 @@
                     <a class="nav-link" href="/about_me/">About me</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">공사중 <span class="caret"></span></a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="dropdown">공사중 <span class="caret"></span></a>
                     <div class="dropdown-menu" aria-labelledby="download">
                         <a class="dropdown-item" rel="noopener" target="_blank" href="https://jsfiddle.net/bootswatch/g1q7jxzf/">Open in JSFiddle</a>
                         <div class="dropdown-divider"></div>
@@ -65,9 +67,50 @@
                         <a class="dropdown-item" href="../4/slate/_bootswatch.scss" download>_bootswatch.scss</a>
                     </div>
                 </li>
+
+
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">{{ user }} <span class="caret"></span></a>
+                    <div class="dropdown-menu" aria-labelledby="download">
+                        <!--                        <a class="dropdown-item" rel="noopener" target="_blank" href="https://jsfiddle.net/bootswatch/g1q7jxzf/">Open in JSFiddle</a>-->
+                        <!--                        <div class="dropdown-divider"></div>-->
+                        <!--                        <a class="dropdown-item" href="../4/slate/bootstrap.min.css" download>bootstrap.min.css</a>-->
+                        <!--                        <a class="dropdown-item" href="../4/slate/bootstrap.css" download>bootstrap.css</a>-->
+                        <!--                        <div class="dropdown-divider"></div>-->
+                        <!--                        <a class="dropdown-item" href="../4/slate/_variables.scss" download>_variables.scss</a>-->
+                        <a class="dropdown-item" href="/accounts/logout/">Log out</a>
+                    </div>
+                </li>
+                {% else %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+                    Log in
+                </button>
+
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>
+</div>
+{% load socialaccount %}
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Please Log in</h5>
+      </div>
+      <div class="modal-body">
+        <a role="button" class="btn btn-primary" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i> Log in with Google</a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="container">

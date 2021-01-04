@@ -63,45 +63,41 @@
 
 <div id="comments-list">
     {% for comment in object.comment_set.all %}
-    <div class="media mb-4" id="comment-id-{{ comment.pk }}">
-        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-        <div class="media-body">
-            {% if comment.author == request.user %}
-            <button type="button" class="btn btn-primary btn-sm float-right">delete</button>
-            <button type="button" class="btn btn-primary btn-sm float-right">edit</button>
-            {% endif %}
-            <h5 class="mt-0">{{ comment.author }}<small class="text-muted">{{ comment.created_at }}</small></h5>
-            {{ comment.get_markdown_content | safe }}
+        <div class="media mb-4" id="comment-id-{{ comment.pk }}">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+                {% if comment.author == request.user %}
+                <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">delete</button>
+                <button type="button" class="btn btn-primary btn-sm float-right">edit</button>
+                {% endif %}
+                <h5 class="mt-0">{{ comment.author }}<small class="text-muted">{{ comment.created_at }}</small></h5>
+                {{ comment.get_markdown_content | safe }}
+            </div>
         </div>
-    </div>
     {% endfor %}
 </div>
+{% for comment in object.comment_set.all %}
+    {% if user == comment.author %}
+        <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">정말로 지우시겠습니까?</h5>
+              </div>
+              <div class="modal-body">
+                <a href="/blog/delete_comment/{{ comment.pk }}/"></a>
+                <p>{{ comment.get_markdown_content | safe }}</p>
 
-
-<!-- Comment with nested comments -->
-<div class="media mb-4">
-    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-    <div class="media-body">
-        <h5 class="mt-0">Commenter Name</h5>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-        <div class="media mt-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='/blog/delete_comment/{{ comment.pk }}/'">Delete</button>
+              </div>
             </div>
+          </div>
         </div>
+    {% endif %}
+{% endfor %}
 
-        <div class="media mt-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
-        </div>
-
-    </div>
-</div>
 
 {% endblock %}
