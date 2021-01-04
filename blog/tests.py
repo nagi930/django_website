@@ -100,8 +100,8 @@ class TestModel(TestCase):
 
         self.assertEqual(post_000.tags.count(), 2)
         self.assertEqual(tag_001.post_set.count(), 2)
-        self.assertEqual(tag_001.post_set.first(), post_000)
-        self.assertEqual(tag_001.post_set.last(), post_001)
+        self.assertEqual(tag_001.post_set.first(), post_001)
+        self.assertEqual(tag_001.post_set.last(), post_000)
 
     def test_comment(self):
         post_000 = create_post(
@@ -532,3 +532,26 @@ class TestView(TestCase):
         self.assertNotIn('15151545421', soup.body.text)
         self.assertIn('comment edited', soup.body.text)
 
+    def test_search(self):
+        post_000 = create_post(
+            title='Stay Fool, Stay Hungry',
+            content='Amazing Apple Story',
+            author=self.author_000,
+        )
+        post_001 = create_post(
+            title='Trump Trump Trump Trump',
+            content='Make America Great Again',
+            author=self.author_000,
+        )
+
+        response = self.client.get('/blog/search/Stay Fool/')
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(post_000.title, soup.body.text)
+        self.assertNotIn(post_001.title, soup.body.text)
+
+        response = self.client.get('/blog/search/Make America/')
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(post_001.title, soup.body.text)
+        self.assertNotIn(post_000.title, soup.body.text)

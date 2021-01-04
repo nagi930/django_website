@@ -3,7 +3,7 @@ from .models import Post, Category, Tag, Comment
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CommentForm
-
+from django.db.models import Q
 
 class PostList(ListView):
     model = Post
@@ -16,6 +16,17 @@ class PostList(ListView):
         context['category_list'] = Category.objects.all()
         context['post_without_category'] = Post.objects.filter(category=None).count()
 
+        return context
+
+class PostSearch(ListView):
+    def get_queryset(self):
+        q = self.kwargs['q']
+        object_list = Post.objects.filter(Q(title__contains=q) | Q(content__contains=q))
+        return object_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PostSearch, self).get_context_data()
+        context['search_info'] = 'Search: "{}"'.format(self.kwargs['q'])
         return context
 
 class PostDetail(DetailView):
