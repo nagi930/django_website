@@ -1,0 +1,40 @@
+{% extends 'basecamp/base_full.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h1 class="my-3">About Me</h1>
+                <h3 class="my-3">안녕하세요.</h3>
+                <h5 class="my-3">
+                    <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci nisi, condimentum in neque vel, lacinia ultricies nunc. Nunc quis tellus pretium, dapibus purus at, fringilla nunc. Cras sed purus tincidunt, rhoncus lectus id, hendrerit turpis. Suspendisse viverra quis massa sed sagittis. Maecenas rutrum, tortor varius ullamcorper luctus, lacus ex interdum leo, et porta elit metus vitae mi. Mauris eu mollis velit. Quisque consequat nisl tempus lectus rutrum accumsan. Suspendisse dapibus aliquet venenatis. Vivamus aliquam, purus imperdiet eleifend ullamcorper, metus lacus eleifend ipsum, id faucibus lacus purus ac elit. In sed placerat quam. Phasellus commodo lobortis lorem in accumsan. Cras interdum suscipit diam.
+                    </p>
+                    <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius massa sit amet magna dignissim, sit amet ultrices augue viverra. Proin nec orci libero. Etiam mollis massa sit amet nulla commodo, in interdum velit rhoncus. Curabitur volutpat ligula purus, ut pellentesque felis varius vel. Etiam ante justo, laoreet at ligula a, aliquet mattis libero. Nunc dignissim diam diam, eu malesuada mauris tempus quis. Nulla aliquet iaculis scelerisque. Vivamus vitae ex pharetra, facilisis tortor ac, laoreet leo. Maecenas accumsan maximus augue ut venenatis. Maecenas pulvinar mi id nisi tempus, vel accumsan velit condimentum. Aenean vel tortor non nunc rutrum euismod sed in tellus. Fusce viverra nulla non justo faucibus pulvinar. Duis mauris neque, accumsan at orci dapibus, placerat condimentum dui. In luctus purus eros, sit amet rutrum turpis tempor et.
+                    </p>
+                    <p>
+                    Cras mollis, sapien quis congue vestibulum, libero ipsum tincidunt est, sed fringilla elit odio nec sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at euismod urna. Aliquam varius sodales neque, vitae tincidunt leo sodales quis. Sed eu orci molestie, venenatis mi id, fermentum sapien. Ut pellentesque, ante eget consectetur gravida, dui risus gravida eros, sagittis ultrices mi nunc non enim. Fusce iaculis venenatis libero ut sodales. Vivamus faucibus, nunc non tincidunt vulputate, nisl nisl porta leo, id ullamcorper enim justo vel neque. Donec rutrum fermentum tortor sed molestie.
+                    </p>
+                </h5>
+            </div>
+
+            <div class="col-md-3">
+                <img class="img-fluid" src="{% static 'basecamp/images/7.jpg' %}"/>
+
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-3">
+                <img class="img-fluid" src="{% static 'basecamp/images/8.jpg' %}"/>
+            </div>
+            <div class="col-md-9">
+                <h2 class="my-3">Contact me</h2>
+                <h5 class="my-3">E-mail : gnkim827@gmail.com</h5>
+            </div>
+        </div>
+    </div>
+{% endblock %}

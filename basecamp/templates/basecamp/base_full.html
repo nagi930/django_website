@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Blog{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/_assets/css/custom.min.css' %}">
+    <script src="https://kit.fontawesome.com/12cd1e2a00.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+{% include 'basecamp/navbar.html' %}
+
+
+{% block content %}
+{% endblock %}
+
+
+<script>
+    function search_post(){
+        var search_value = document.getElementById('search-input').value;
+        location.href="/blog/search/" + search_value +"/";
+    }
+
+    function wait_for_enterkey(){
+        if (window.event.keyCode == 13){
+            search_post();
+        }
+    }
+</script>
+<script src="{% static 'blog/_assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'blog/bootstrap/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'blog/_assets/js/custom.js' %}"></script>
+</body>
+</html>
