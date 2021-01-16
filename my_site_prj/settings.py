@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
 ]
+SITE_ID = 1
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -145,4 +147,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = '/blog/'
 
-SITE_ID = 1
+
