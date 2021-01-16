@@ -52,55 +52,61 @@
 <div class="card my-4">
     <h5 class="card-header">Leave a Comment:</h5>
     <div class="card-body">
+        {% if request.user.is_authenticated %}
         <form method="post", action="{{ object.get_absolute_url}}new_comment/">{% csrf_token %}
             <div class="form-group">
                 {{ comment_form | crispy}}
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        {% else %}
+        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#loginModal">
+            Please Log in to leave a comment
+        </button>
+        {% endif %}
     </div>
 </div>
 
 <div id="comments-list">
     {% for comment in object.comment_set.all %}
-        <div class="media mb-4" id="comment-id-{{ comment.pk }}">
-            {% if comment.author.socialaccount_set.all.0.get_avatar_url %}
-                <img width="50px" class="d-flex mr-3 rounded-circle" src="{{ comment.author.socialaccount_set.all.0.get_avatar_url }}" alt="">
-            {% else %}
-                <img width="50px" class="d-flex mr-3 rounded-circle" src="https://via.placeholder.com/50x50" alt="">
+    <div class="media mb-4" id="comment-id-{{ comment.pk }}">
+        {% if comment.author.socialaccount_set.all.0.get_avatar_url %}
+        <img width="50px" class="d-flex mr-3 rounded-circle" src="{{ comment.author.socialaccount_set.all.0.get_avatar_url }}" alt="">
+        {% else %}
+        <img width="50px" class="d-flex mr-3 rounded-circle" src="https://via.placeholder.com/50x50" alt="">
+        {% endif %}
+        <div class="media-body">
+            {% if comment.author == request.user %}
+            <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">delete</button>
+            <button type="button" class="btn btn-primary btn-sm float-right" onclick="location.href='/blog/edit_comment/{{ comment.pk }}/'">edit</button>
             {% endif %}
-            <div class="media-body">
-                {% if comment.author == request.user %}
-                <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">delete</button>
-                <button type="button" class="btn btn-primary btn-sm float-right" onclick="location.href='/blog/edit_comment/{{ comment.pk }}/'">edit</button>
-                {% endif %}
-                <h5 class="mt-0">{{ comment.author }}<small class="text-muted">{{ comment.created_at }}</small></h5>
-                {{ comment.get_markdown_content | safe }}
-            </div>
+            <h5 class="mt-0">{{ comment.author }}<small class="text-muted">{{ comment.created_at }}</small></h5>
+            {{ comment.get_markdown_content | safe }}
         </div>
+    </div>
     {% endfor %}
 </div>
 {% for comment in object.comment_set.all %}
-    {% if user == comment.author %}
-        <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
+{% if user == comment.author %}
+<div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">정말로 지우시겠습니까?</h5>
-              </div>
-              <div class="modal-body">
+            </div>
+            <div class="modal-body">
                 <a href="/blog/delete_comment/{{ comment.pk }}/"></a>
                 <p>{{ comment.get_markdown_content | safe }}</p>
 
-              </div>
-              <div class="modal-footer">
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="location.href='/blog/delete_comment/{{ comment.pk }}/'">Delete</button>
-              </div>
             </div>
-          </div>
         </div>
-    {% endif %}
+    </div>
+</div>
+{% endif %}
 {% endfor %}
 
 
