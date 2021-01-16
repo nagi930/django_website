@@ -14,10 +14,8 @@ from pathlib import Path
 import os
 from datetime import datetime
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -29,8 +27,6 @@ SECRET_KEY = '%84@x#wcb_+!js^3k5)aey^d1fj++_%+ys#_ks4gw4w2d!l9a8'
 DEBUG = True
 
 ALLOWED_HOSTS = ['141.164.50.81', '127.0.0.1', 'megadose.site', 'www.megadose.site']
-
-
 
 # Application definition
 
@@ -52,7 +48,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'my_site_prj.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -94,7 +88,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -113,7 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
