@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['141.164.50.81', '127.0.0.1', 'megadose.site', 'www.megadose.site']
 
+SITE_ID = 1
 
 # Application definition
 
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
