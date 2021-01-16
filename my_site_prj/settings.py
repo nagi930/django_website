@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['141.164.50.81', '127.0.0.1', 'megadose.site', 'www.megadose.site']
 
-SITE_ID = 1
+
 
 # Application definition
 
@@ -152,3 +152,5 @@ MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = '/blog/'
+
+SITE_ID = 1
